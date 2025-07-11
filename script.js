@@ -47,6 +47,7 @@ function addTask() {
     setInterval(updateClock, 1000);
     updateClock();
 
+    
     statusSelect.addEventListener("change", () => {
       const status = statusSelect.value;
       statusText.textContent = status === "online" ? "Online" : status === "busy" ? "In einer Besprechung" : "Pause";
