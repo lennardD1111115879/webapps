@@ -1,4 +1,13 @@
-.task-text {
-    flex-grow: 1;
-    margin-right: 10px;
-}
+    body {
+      background-color: #f5f7fa;
+    }
+    .status-indicator {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+    .status-online { background-color: green; }
+    .status-busy { background-color: red; }
+    .status-break { background-color: orange; }
