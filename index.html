@@ -80,7 +80,7 @@
                             <input type="text" id="meetingName" class="form-control" placeholder="Meeting-Name" />
                             <input type="text" id="meetingTime" class="form-control" placeholder="Uhrzeit (z. B. 18:00)" />
                             <input type="text" id="meetingLink" class="form-control" placeholder="Link (https://...)" />
-                            <button class="btn btn-success" onclick="addMeeting()">+</button>
+                            <button class="btn btn-success" onclick="addMeeting(); autoSaveMeetings(loadMeetings())">+</button>
                         </div>
                         <button class="btn btn-danger btn-sm" onclick="clearMeetings()">🗑️ Alle Meetings löschen</button>
                     </div>

@@ -121,7 +121,7 @@ function addMeeting() {
 
 function clearMeetings() {
     if (confirm("Alle Meetings wirklich löschen?")) {
-        localStorage.removeItem("homeoffice_meetings");
+        localStorage.removeItem(MEETINGS_KEY);
         renderMeetings([]);
     }
 }
@@ -145,8 +145,7 @@ function addMeeting() {
     const newMeeting = { name, time, link };
     const meetings = loadMeetings();
     meetings.push(newMeeting);
-    saveMeetings(meetings);
-    renderMeetings(meetings);
+    autoSaveMeetings(meetings);
 
     // Felder leeren
     document.getElementById("meetingName").value = "";
@@ -167,7 +166,7 @@ function loadMeetings() {
 
 // Standard-Meetings 
 function getDefaultMeetings() {
-
+    return [];
 }
 
 // Meetings anzeigen
@@ -189,9 +188,47 @@ function renderMeetings(meetings) {
         removeBtn.className = "btn btn-danger btn-sm";
         removeBtn.innerHTML = "✖";
         removeBtn.onclick = () => {
-            meetings.splice(index, 1);
-            saveMeetings(meetings);
-            renderMeetings(meetings);
+            if (confirm("Möchten Sie dieses Meeting wirklich löschen?")) {
+                meetings.splice(index, 1);
+                autoSaveMeetings(meetings);
+            }
+        };
+
+        li.appendChild(link);
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+    });
+}
+
+// Automatisches Speichern bei Änderungen
+function autoSaveMeetings(meetings) {
+    saveMeetings(meetings);
+    renderMeetings(meetings);
+}
+
+// Beispiel: Automatisches Speichern beim Entfernen eines Meetings
+function renderMeetings(meetings) {
+    const list = document.getElementById("meetingList");
+    list.innerHTML = "";
+
+    meetings.forEach((meeting, index) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+        const link = document.createElement("a");
+        link.href = meeting.link;
+        link.target = "_blank";
+        link.textContent = `${meeting.name} – ${meeting.time}`;
+        link.className = "text-decoration-none";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "btn btn-danger btn-sm";
+        removeBtn.innerHTML = "✖";
+        removeBtn.onclick = () => {
+            if (confirm("Möchten Sie dieses Meeting wirklich löschen?")) {
+                meetings.splice(index, 1);
+                autoSaveMeetings(meetings);
+            }
         };
 
         li.appendChild(link);
@@ -259,11 +296,24 @@ function addMeeting() {
     document.getElementById("meetingLink").value = "";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const meetings = loadMeetings();
-    renderMeetings(meetings);
-});
+
+function saveMeetings(meetings) {
+    localStorage.setItem(MEETINGS_KEY, JSON.stringify(meetings));
+}
+
+function loadMeetings() {
+    const data = localStorage.getItem(MEETINGS_KEY);
+    return data ? JSON.parse(data) : [];
+}
 
 function clearMeetings() {
     document.getElementById("meetingList").innerHTML = "";
+}
+document.addEventListener("DOMContentLoaded", () => {
+    renderMeetings(loadMeetings());
+});
+
+function autoSaveMeetings(meetings) {
+    saveMeetings(meetings);
+    renderMeetings(meetings);
 }
