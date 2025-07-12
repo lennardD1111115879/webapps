@@ -167,25 +167,49 @@ function loadMeetings() {
 
 // Standard-Meetings 
 function getDefaultMeetings() {
-    return [
 
-        { name: "Team-Meeting", time: "10:00 Uhr", link: "https://discord.gg/DeWdzqrY" },
-        { name: "Projektbesprechung", time: "14:00 Uhr", link: "https://example.com/meeting2" },
-        { name: "Kundenanruf", time: "16:00 Uhr", link: "https://example.com/meeting3" }
-    ];
 }
 
 // Meetings anzeigen
 function renderMeetings(meetings) {
     const list = document.getElementById("meetingList");
     list.innerHTML = "";
-    meetings.forEach(meeting => {
+
+    meetings.forEach((meeting, index) => {
         const li = document.createElement("li");
-        li.className = "list-group-item";
-        li.innerHTML = `<a href="${meeting.link}" target="_blank">${meeting.name} – ${meeting.time}</a>`;
+        li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+        const link = document.createElement("a");
+        link.href = meeting.link;
+        link.target = "_blank";
+        link.textContent = `${meeting.name} – ${meeting.time}`;
+        link.className = "text-decoration-none";
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "btn btn-danger btn-sm";
+        removeBtn.innerHTML = "✖";
+        removeBtn.onclick = () => {
+            meetings.splice(index, 1);
+            saveMeetings(meetings);
+            renderMeetings(meetings);
+        };
+
+        li.appendChild(link);
+        li.appendChild(removeBtn);
         list.appendChild(li);
     });
 }
+
+// Meetings Speicherfunktionen
+function saveMeetings(meetings) {
+    localStorage.setItem("homeoffice_meetings", JSON.stringify(meetings));
+}
+
+function loadMeetings() {
+    const data = localStorage.getItem("homeoffice_meetings");
+    return data ? JSON.parse(data) : [];
+}
+
 
 // Beim Laden initialisieren
 document.addEventListener("DOMContentLoaded", () => {
@@ -211,3 +235,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDark = localStorage.getItem("darkMode") === "true";
     applyTheme(isDark);
 });
+
+function addMeeting() {
+    const name = document.getElementById("meetingName").value.trim();
+    const time = document.getElementById("meetingTime").value.trim();
+    const link = document.getElementById("meetingLink").value.trim();
+    const list = document.getElementById("meetingList");
+
+    if (!name || !time || !link) {
+        alert("Bitte alle Felder ausfüllen!");
+        return;
+    }
+
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.innerHTML = `<a href="${link}" target="_blank">${name} – ${time}</a>
+                    <button class="btn btn-sm btn-danger ms-2" onclick="this.parentElement.remove()">✖</button>`;
+    list.appendChild(li);
+
+    // Eingabefelder leeren
+    document.getElementById("meetingName").value = "";
+    document.getElementById("meetingTime").value = "";
+    document.getElementById("meetingLink").value = "";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const meetings = loadMeetings();
+    renderMeetings(meetings);
+});
+
+function clearMeetings() {
+    document.getElementById("meetingList").innerHTML = "";
+}
