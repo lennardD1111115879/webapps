@@ -11,8 +11,8 @@
 
 <body>
     <div class="d-flex justify-content-end mb-3">
-  <button id="toggleDarkMode" class="btn btn-outline-dark btn-sm">🌙 Dark Mode</button>
-</div>
+        <button id="toggleDarkMode" class="btn btn-outline-dark btn-sm">🌙 Dark Mode</button>
+    </div>
 
     <div class="container py-4">
         <h1 class="mb-4">🏠 Willkommen im HomeOffice, Lennard!</h1>
@@ -74,28 +74,20 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">📞 Meetings</h5>
-                        <ul id="meetingList" class="list-group">
-                            <ul id="meetingList" class="list-group">
-
-                            </ul>
-                        </ul>
-                    </div>
-                    <!-- Meeting hinzufügen -->
-                    <div class="input-group">
-                        <input type="text" id="meetingName" class="form-control" placeholder="Meeting-Name" />
-                        <input type="text" id="meetingTime" class="form-control" placeholder="Uhrzeit (z. B. 18:00)" />
-                        <input type="text" id="meetingLink" class="form-control" placeholder="Link (https://...)" />
-                        <button class="btn btn-success" onclick="addMeeting()">+</button>
+                        <ul id="meetingList" class="list-group mb-3"></ul>
+                        <!-- Meeting hinzufügen -->
+                        <div class="input-group">
+                            <input type="text" id="meetingName" class="form-control" placeholder="Meeting-Name" />
+                            <input type="text" id="meetingTime" class="form-control" placeholder="Uhrzeit (z. B. 18:00)" />
+                            <input type="text" id="meetingLink" class="form-control" placeholder="Link (https://...)" />
+                            <button class="btn btn-success" onclick="addMeeting()">+</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-    </div>
 
-    <!-- KALENDER -->
-    <div class="container">
+        <!-- KALENDER -->
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">📅 Kalender – <span id="calendarMonth"></span></h5>
@@ -103,6 +95,7 @@
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 
