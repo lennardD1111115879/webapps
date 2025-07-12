@@ -119,6 +119,14 @@ function addMeeting() {
     document.getElementById("meetingLink").value = "";
 }
 
+function clearMeetings() {
+    if (confirm("Alle Meetings wirklich löschen?")) {
+        localStorage.removeItem("homeoffice_meetings");
+        renderMeetings([]);
+    }
+}
+
+
 
 // Speicher-Schlüssel
 const MEETINGS_KEY = "homeoffice_meetings";
