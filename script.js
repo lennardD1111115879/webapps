@@ -179,7 +179,7 @@ function renderMeetings(meetings) {
     });
 }
 
-// Beim Laden initialisieren
+// Beim Laden initialisierensss
 document.addEventListener("DOMContentLoaded", () => {
     const meetings = loadMeetings();
     renderMeetings(meetings);
